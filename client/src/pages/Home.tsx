@@ -20,6 +20,11 @@ const Home = () => {
   const { id: params } = useParams();
 
   useEffect(() => {
+    const token = localStorage.getItem('token');
+    !token && navigate('/auth');
+  }, [navigate]);
+
+  useEffect(() => {
     const getTodos = async () => {
       const res = await axios.get('todos', {
         headers: { Authorization: localStorage.getItem('token') },
@@ -142,6 +147,15 @@ const Home = () => {
       <PageContainer>
         <PageTitle>상세보기</PageTitle>
         <Outlet />
+        <LogoutButton
+          color='red'
+          onClick={() => {
+            localStorage.removeItem('token');
+            navigate('/auth');
+          }}
+        >
+          로그아웃
+        </LogoutButton>
       </PageContainer>
     </>
   );
@@ -162,4 +176,14 @@ const Message = styled.p`
   text-align: center;
   font-size: 1.7rem;
   line-height: 40rem;
+`;
+
+const LogoutButton = styled(Button)`
+  background-color: transparent;
+  font-size: 1.3rem;
+  height: 3rem;
+  padding: 0 1rem;
+  position: absolute;
+  bottom: 3rem;
+  right: 3rem;
 `;

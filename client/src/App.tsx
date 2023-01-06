@@ -7,6 +7,8 @@ import { Container, PageContainer } from './styles/page';
 import axios from 'axios';
 import Home from './pages/Home';
 import Detail from './pages/Detail';
+import { Button } from './styles/form';
+import styled from 'styled-components';
 
 axios.defaults.baseURL = 'http://localhost:8080';
 
