@@ -6,6 +6,7 @@ import { TodoResType } from '../types/todo';
 import axios from 'axios';
 import TodoItem from '../components/TodoItem/TodoItem';
 import styled from 'styled-components';
+import { Button } from '../styles/form';
 
 const Home = () => {
   const [todos, setTodos] = useState<TodoResType[]>([]);
@@ -126,6 +127,7 @@ const Home = () => {
           onSubmitTodo={onSubmitTodo}
         />
         <List>
+          {todos.length < 1 && <Message>일정을 추가해보세요!</Message>}
           {todos.map((todo, index) => (
             <TodoItem
               key={todo.id}
@@ -138,6 +140,7 @@ const Home = () => {
         </List>
       </PageContainer>
       <PageContainer>
+        <PageTitle>상세보기</PageTitle>
         <Outlet />
       </PageContainer>
     </>
@@ -153,4 +156,10 @@ const List = styled.ul`
   height: 45rem;
   border-radius: 10px;
   overflow-y: auto;
+`;
+
+const Message = styled.p`
+  text-align: center;
+  font-size: 1.7rem;
+  line-height: 40rem;
 `;

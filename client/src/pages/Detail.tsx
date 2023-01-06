@@ -1,28 +1,33 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { TodoResType } from '../types/todo';
 import styled from 'styled-components';
 import { PageTitle } from './../styles/page';
 import { dateFormat } from '../utils/dateFormat';
+import { Button } from '../styles/form';
 
 const Detail = () => {
   const todo: TodoResType = useLocation().state;
 
+  const navigate = useNavigate();
+
   return (
     <div>
-      <PageTitle>상세보기</PageTitle>
-      <TitleBox>
+      <TitleContainer>
         <Title>{todo.title}</Title>
         <Date>{dateFormat(todo.createdAt)}</Date>
-      </TitleBox>
+      </TitleContainer>
       <Content>{todo.content}</Content>
+      <ButtonContainer>
+        <Button onClick={() => navigate('/')}>나가기</Button>
+      </ButtonContainer>
     </div>
   );
 };
 
 export default Detail;
 
-const TitleBox = styled.div`
+const TitleContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -44,4 +49,9 @@ const Content = styled.article`
   border: 1px solid lightgray;
   border-radius: 10px;
   min-height: 50rem;
+`;
+
+const ButtonContainer = styled.div`
+  text-align: right;
+  margin-top: 1.5rem;
 `;

@@ -2,15 +2,19 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   width: 100rem;
-  margin: 0 auto;
-  border: 1px solid green;
+  margin: 10rem auto 0;
   display: flex;
+  background-color: #fff;
+  border-radius: 10px;
 `;
 
 export const PageContainer = styled.div`
   width: 50rem;
   padding: 0 5rem;
-  border: 1px solid blue;
+
+  + div {
+    border-left: 1px dashed lightgrey;
+  }
 `;
 
 export const PageTitle = styled.h2`
