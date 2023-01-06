@@ -2,7 +2,6 @@ import styled from 'styled-components';
 
 export const Form = styled.form`
   margin: auto;
-  width: 50rem;
 `;
 
 export const ValidationInput = styled.input<{ isValid: boolean }>`

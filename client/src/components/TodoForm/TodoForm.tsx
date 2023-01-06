@@ -1,4 +1,11 @@
-import React, { FormEvent, RefObject, useRef, useState } from 'react';
+import React, {
+  Dispatch,
+  FC,
+  FormEvent,
+  RefObject,
+  useRef,
+  useState,
+} from 'react';
 import styled from 'styled-components';
 import {
   Button,
@@ -8,13 +15,22 @@ import {
   Textarea,
 } from '../../styles/form';
 import axios from 'axios';
+import type { TodoResType } from '../../types/todo';
 
-const TodoForm = () => {
-  const titleRef = useRef<HTMLInputElement>(null);
-  const contentRef = useRef<HTMLTextAreaElement>(null);
+interface TodoFormProps {
+  setTodos: Dispatch<React.SetStateAction<TodoResType[]>>;
+  titleRef: RefObject<HTMLInputElement>;
+  contentRef: RefObject<HTMLTextAreaElement>;
+}
 
+const TodoForm: React.FC<TodoFormProps> = ({
+  setTodos,
+  titleRef,
+  contentRef,
+}) => {
   const onSubmitTodo = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     if (titleRef.current && contentRef.current) {
       try {
         const res = await axios.post(
@@ -25,8 +41,11 @@ const TodoForm = () => {
           },
           { headers: { Authorization: localStorage.getItem('token') } }
         );
-        console.log(res);
-      } catch (err) {}
+
+        setTodos((current) => [...current, res.data.data]);
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
 
@@ -34,11 +53,11 @@ const TodoForm = () => {
     <Form onSubmit={onSubmitTodo}>
       <InputContainer>
         <Label htmlFor='todoTitle'>할 일</Label>
-        <Input type='text' id='todoTitle' ref={titleRef} />
+        <TitleInput type='text' id='todoTitle' ref={titleRef} />
       </InputContainer>
       <InputContainer>
         <Label htmlFor='todoContent'>내용</Label>
-        <Textarea id='todoContent' rows={5} ref={contentRef} />
+        <ContentInput id='todoContent' rows={5} ref={contentRef} />
       </InputContainer>
       <ButtonContainer>
         <Button>추가하기</Button>
@@ -50,14 +69,22 @@ const TodoForm = () => {
 export default TodoForm;
 
 const Form = styled(FormStyle)`
-  width: fit-content;
-  padding: 0 10rem;
+  padding: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
 
+const TitleInput = styled(Input)`
+  width: calc(100% - 8rem);
+`;
+
+const ContentInput = styled(Textarea)`
+  width: calc(100% - 8rem);
+`;
+
 const InputContainer = styled.div`
+  width: 100%;
   margin-bottom: 1rem;
   * {
     vertical-align: middle;
