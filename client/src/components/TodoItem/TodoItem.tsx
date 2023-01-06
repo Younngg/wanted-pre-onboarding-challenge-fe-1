@@ -7,18 +7,19 @@ import { Button as ButtonStyle } from '../../styles/form';
 interface TodoItemProps {
   todo: TodoResType;
   index: number;
+  onClickUpdate: (todo: TodoResType) => void;
 }
 
-const TodoItem: React.FC<TodoItemProps> = ({ todo, index }) => {
+const TodoItem: React.FC<TodoItemProps> = ({ todo, index, onClickUpdate }) => {
   return (
     <Li>
-      <Link to={todo.id}>
+      <Link to={todo.id} state={todo}>
         <Index>{index}</Index>
         <Title>{todo.title}</Title>
       </Link>
       <div>
-        <Button>수정</Button>
-        <Button>삭제</Button>
+        <Button onClick={() => onClickUpdate(todo)}>수정</Button>
+        <Button color='red'>삭제</Button>
       </div>
     </Li>
   );
@@ -27,14 +28,14 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, index }) => {
 export default TodoItem;
 
 const Li = styled.li`
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   height: 5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
 
   &:hover {
-    background-color: lightgrey;
+    background-color: #eeeeee;
   }
 
   a {

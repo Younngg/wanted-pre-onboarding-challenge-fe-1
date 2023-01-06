@@ -18,37 +18,20 @@ import axios from 'axios';
 import type { TodoResType } from '../../types/todo';
 
 interface TodoFormProps {
-  setTodos: Dispatch<React.SetStateAction<TodoResType[]>>;
   titleRef: RefObject<HTMLInputElement>;
   contentRef: RefObject<HTMLTextAreaElement>;
+  isUpdating: boolean;
+  onCancleUpdate: () => void;
+  onSubmitTodo: (e: FormEvent<HTMLFormElement>) => Promise<void>;
 }
 
 const TodoForm: React.FC<TodoFormProps> = ({
-  setTodos,
   titleRef,
   contentRef,
+  isUpdating,
+  onCancleUpdate,
+  onSubmitTodo,
 }) => {
-  const onSubmitTodo = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    if (titleRef.current && contentRef.current) {
-      try {
-        const res = await axios.post(
-          'todos',
-          {
-            title: titleRef.current.value,
-            content: contentRef.current.value,
-          },
-          { headers: { Authorization: localStorage.getItem('token') } }
-        );
-
-        setTodos((current) => [...current, res.data.data]);
-      } catch (err) {
-        console.log(err);
-      }
-    }
-  };
-
   return (
     <Form onSubmit={onSubmitTodo}>
       <InputContainer>
@@ -60,7 +43,16 @@ const TodoForm: React.FC<TodoFormProps> = ({
         <ContentInput id='todoContent' rows={5} ref={contentRef} />
       </InputContainer>
       <ButtonContainer>
-        <Button>추가하기</Button>
+        {isUpdating ? (
+          <>
+            <Button>수정하기</Button>
+            <Button type='button' onClick={onCancleUpdate} color='red'>
+              수정 취소
+            </Button>
+          </>
+        ) : (
+          <Button>추가하기</Button>
+        )}
       </ButtonContainer>
     </Form>
   );

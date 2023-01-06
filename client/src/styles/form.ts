@@ -48,18 +48,21 @@ export const Label = styled.label`
   width: 8rem;
 `;
 
-export const Button = styled.button`
+export const Button = styled.button<{ color?: string }>`
   padding: 0 1.5rem;
   height: 4rem;
   margin: 0 0.5rem;
   font-size: 1.5rem;
-  border: 2px solid ${({ theme }) => theme.color.green};
+  border: 2px solid
+    ${({ theme, color }) => (color ? theme.color[color] : theme.color.green)};
   border-radius: 50px;
-  color: ${({ theme }) => theme.color.green};
-  background-color: transparent;
+  color: ${({ theme, color }) =>
+    color ? theme.color[color] : theme.color.green};
+  background-color: white;
 
   &:hover {
-    background-color: ${({ theme }) => theme.color.green};
+    background-color: ${({ theme, color }) =>
+      color ? theme.color[color] : theme.color.green};
     color: white;
   }
 

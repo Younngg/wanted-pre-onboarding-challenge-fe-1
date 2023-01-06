@@ -1,8 +1,8 @@
 import { DefaultTheme } from 'styled-components';
 
 const color = {
-  green: 'green',
-  red: 'red',
+  green: '#10ac84',
+  red: '#ff7675',
 };
 
 export type ColorsTypes = typeof color;
