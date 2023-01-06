@@ -5,6 +5,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import { Container } from './styles/page';
 import axios from 'axios';
+import Home from './pages/Home';
 
 axios.defaults.baseURL = 'http://localhost:8080';
 
@@ -14,6 +15,7 @@ function App() {
       <Container>
         <BrowserRouter>
           <Routes>
+            <Route path='/' element={<Home />} />
             <Route path='/auth' element={<Login />} />
             <Route path='/auth/register' element={<Register />} />
           </Routes>

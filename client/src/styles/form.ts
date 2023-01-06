@@ -16,6 +16,27 @@ export const ValidationInput = styled.input<{ isValid: boolean }>`
   }
 `;
 
+export const Input = styled.input`
+  width: 20rem;
+  font-size: 1.5rem;
+  padding: 0.5rem 1rem;
+
+  &:focus {
+    outline: none;
+  }
+`;
+
+export const Textarea = styled.textarea`
+  width: 20rem;
+  font-size: 1.5rem;
+  padding: 0.5rem 1rem;
+  resize: none;
+
+  &:focus {
+    outline: none;
+  }
+`;
+
 export const ValidationMessage = styled.span`
   display: inline-block;
   font-size: 1.4rem;

@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEvent, useState } from 'react';
+import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -17,6 +17,12 @@ const LoginForm = () => {
   const [isValidPassword, setIsValidPassword] = useState<boolean>(false);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (localStorage.getItem('token')) {
+      navigate('/');
+    }
+  }, [navigate]);
 
   const onChangeEmailInput = (e: ChangeEvent<HTMLInputElement>) => {
     const email = e.target.value;
