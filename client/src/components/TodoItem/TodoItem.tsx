@@ -8,9 +8,15 @@ interface TodoItemProps {
   todo: TodoResType;
   index: number;
   onClickUpdate: (todo: TodoResType) => void;
+  onDeleteTodo: (id: string) => Promise<void>;
 }
 
-const TodoItem: React.FC<TodoItemProps> = ({ todo, index, onClickUpdate }) => {
+const TodoItem: React.FC<TodoItemProps> = ({
+  todo,
+  index,
+  onClickUpdate,
+  onDeleteTodo,
+}) => {
   return (
     <Li>
       <Link to={todo.id} state={todo}>
@@ -19,7 +25,9 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, index, onClickUpdate }) => {
       </Link>
       <div>
         <Button onClick={() => onClickUpdate(todo)}>수정</Button>
-        <Button color='red'>삭제</Button>
+        <Button onClick={() => onDeleteTodo(todo.id)} color='red'>
+          삭제
+        </Button>
       </div>
     </Li>
   );

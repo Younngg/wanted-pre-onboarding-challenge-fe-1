@@ -1,6 +1,6 @@
 import React, { FormEvent, useEffect, useRef, useState } from 'react';
 import TodoForm from '../components/TodoForm/TodoForm';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate, useParams } from 'react-router-dom';
 import { PageContainer, PageTitle } from '../styles/page';
 import { TodoResType } from '../types/todo';
 import axios from 'axios';
@@ -14,6 +14,9 @@ const Home = () => {
 
   const titleRef = useRef<HTMLInputElement>(null);
   const contentRef = useRef<HTMLTextAreaElement>(null);
+
+  const navigate = useNavigate();
+  const { id: params } = useParams();
 
   useEffect(() => {
     const getTodos = async () => {
@@ -42,6 +45,23 @@ const Home = () => {
     if (titleRef.current && contentRef.current) {
       titleRef.current.value = '';
       contentRef.current.value = '';
+    }
+  };
+
+  const onDeleteTodo = async (id: string) => {
+    const token = localStorage.getItem('token');
+
+    try {
+      await axios.delete(`todos/${id}`, { headers: { Authorization: token } });
+      setTodos((current) => {
+        const updated = [...current].filter((todo) => todo.id !== id);
+        return updated;
+      });
+      if (params === id) {
+        navigate('/');
+      }
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -112,6 +132,7 @@ const Home = () => {
               todo={todo}
               index={index + 1}
               onClickUpdate={onClickUpdate}
+              onDeleteTodo={onDeleteTodo}
             />
           ))}
         </List>

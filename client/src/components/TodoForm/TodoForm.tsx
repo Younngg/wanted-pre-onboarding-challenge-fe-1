@@ -14,8 +14,6 @@ import {
   Label,
   Textarea,
 } from '../../styles/form';
-import axios from 'axios';
-import type { TodoResType } from '../../types/todo';
 
 interface TodoFormProps {
   titleRef: RefObject<HTMLInputElement>;
