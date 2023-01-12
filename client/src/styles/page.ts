@@ -21,4 +21,5 @@ export const PageContainer = styled.div`
 export const PageTitle = styled.h2`
   font-size: 2rem;
   padding: 2rem 0;
+  display: flex;
 `;

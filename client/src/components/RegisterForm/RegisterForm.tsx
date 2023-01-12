@@ -80,9 +80,6 @@ const RegisterForm = () => {
         <ValidationMessage>8자 이상 입력해주세요.</ValidationMessage>
       )}
       <ButtonContainer>
-        <Button type='button' onClick={() => navigate('/auth')}>
-          로그인
-        </Button>
         <Button disabled={!isValidEmail || !isValidPassword}>sign up</Button>
       </ButtonContainer>
     </SignUpForm>

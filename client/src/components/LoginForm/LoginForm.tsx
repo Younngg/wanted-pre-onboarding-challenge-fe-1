@@ -81,9 +81,6 @@ const LoginForm = () => {
         <ValidationMessage>8자 이상 입력해주세요.</ValidationMessage>
       )}
       <ButtonContainer>
-        <Button type='button' onClick={() => navigate('/auth/register')}>
-          회원가입
-        </Button>
         <Button disabled={!isValidEmail || !isValidPassword}>sign in</Button>
       </ButtonContainer>
     </SignUpForm>
