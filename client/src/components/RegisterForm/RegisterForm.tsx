@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -9,12 +9,16 @@ import {
   ValidationMessage,
 } from '../../styles/form';
 import axios from 'axios';
+import {
+  validateEmail,
+  validateEmailAndPassword,
+  validatePassword,
+} from '../../utils/validate';
 
 const RegisterForm = () => {
   const [emailInput, setEmailInput] = useState('');
-  const [isValidEmail, setIsValidEmail] = useState<boolean>(false);
   const [passwordInput, setPasswordInput] = useState('');
-  const [isValidPassword, setIsValidPassword] = useState<boolean>(false);
+  const [isValid, setIsValid] = useState({ email: false, password: false });
 
   const navigate = useNavigate();
 
@@ -24,21 +28,39 @@ const RegisterForm = () => {
     }
   }, [navigate]);
 
+  useEffect(() => {
+    setIsValid((cur) => {
+      const updated = {
+        ...cur,
+        email: validateEmail(emailInput) ? true : false,
+      };
+      return updated;
+    });
+  }, [emailInput]);
+
+  useEffect(() => {
+    setIsValid((cur) => {
+      const updated = {
+        ...cur,
+        password: validatePassword(passwordInput) ? true : false,
+      };
+      return updated;
+    });
+  }, [passwordInput]);
+
   const onChangeEmailInput = (e: ChangeEvent<HTMLInputElement>) => {
     const email = e.target.value;
     setEmailInput(email);
-    setIsValidEmail(email.includes('@') && email.includes('.'));
   };
 
   const onChangePasswordInput = (e: ChangeEvent<HTMLInputElement>) => {
     const password = e.target.value;
     setPasswordInput(password);
-    setIsValidPassword(password.length >= 8);
   };
 
   const onSubmitRegister = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (isValidEmail && isValidPassword) {
+    if (validateEmailAndPassword(isValid)) {
       try {
         await axios.post('users/create', {
           email: emailInput,
@@ -60,10 +82,10 @@ const RegisterForm = () => {
           id='email'
           value={emailInput}
           onChange={onChangeEmailInput}
-          isValid={isValidEmail}
+          isValid={isValid.email}
         />
       </InputContainer>
-      {!isValidEmail && (
+      {!isValid.email && (
         <ValidationMessage>이메일 형식을 갖춰주세요.</ValidationMessage>
       )}
       <InputContainer>
@@ -73,14 +95,14 @@ const RegisterForm = () => {
           id='password'
           value={passwordInput}
           onChange={onChangePasswordInput}
-          isValid={isValidPassword}
+          isValid={isValid.password}
         />
       </InputContainer>
-      {!isValidPassword && (
+      {!isValid.password && (
         <ValidationMessage>8자 이상 입력해주세요.</ValidationMessage>
       )}
       <ButtonContainer>
-        <Button disabled={!isValidEmail || !isValidPassword}>sign up</Button>
+        <Button disabled={!validateEmailAndPassword(isValid)}>sign up</Button>
       </ButtonContainer>
     </SignUpForm>
   );

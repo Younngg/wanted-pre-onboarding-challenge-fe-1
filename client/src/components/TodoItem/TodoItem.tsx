@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import { FC, memo } from 'react';
 import styled from 'styled-components';
 import type { TodoResType } from '../../types/todo';
 import { Link } from 'react-router-dom';
@@ -7,12 +7,12 @@ import { Button as ButtonStyle } from '../../styles/form';
 interface TodoItemProps {
   todo: TodoResType;
   index: number;
-  onClickUpdate: (todo: TodoResType) => void;
+  getInitialDataForEdit: (todo: TodoResType) => void;
   onDeleteTodo: (id: string) => Promise<void>;
 }
 
-const TodoItem: React.FC<TodoItemProps> = memo(
-  ({ todo, index, onClickUpdate, onDeleteTodo }) => {
+const TodoItem: FC<TodoItemProps> = memo(
+  ({ todo, index, getInitialDataForEdit, onDeleteTodo }) => {
     return (
       <Li>
         <Link to={todo.id} state={todo}>
@@ -20,7 +20,7 @@ const TodoItem: React.FC<TodoItemProps> = memo(
           <Title>{todo.title}</Title>
         </Link>
         <div>
-          <Button onClick={() => onClickUpdate(todo)}>수정</Button>
+          <Button onClick={() => getInitialDataForEdit(todo)}>수정</Button>
           <Button onClick={() => onDeleteTodo(todo.id)} color='red'>
             삭제
           </Button>

@@ -1,4 +1,4 @@
-import React, { FormEvent, RefObject } from 'react';
+import { FC, FormEvent, RefObject } from 'react';
 import styled from 'styled-components';
 import {
   Button,
@@ -16,7 +16,7 @@ interface TodoFormProps {
   onSubmitTodo: (e: FormEvent<HTMLFormElement>) => Promise<void>;
 }
 
-const TodoForm: React.FC<TodoFormProps> = ({
+const TodoForm: FC<TodoFormProps> = ({
   titleRef,
   contentRef,
   isUpdating,

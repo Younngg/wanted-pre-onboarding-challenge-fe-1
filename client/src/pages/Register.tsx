@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import RegisterForm from '../components/RegisterForm/RegisterForm';
 import { Button } from '../styles/form';

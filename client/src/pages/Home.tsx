@@ -2,7 +2,7 @@ import React, { FormEvent, useEffect, useRef, useState } from 'react';
 import TodoForm from '../components/TodoForm/TodoForm';
 import { Outlet, useNavigate, useParams } from 'react-router-dom';
 import { PageContainer, PageTitle } from '../styles/page';
-import { TodoResType } from '../types/todo';
+import type { TodoResType } from '../types/todo';
 import axios from 'axios';
 import TodoItem from '../components/TodoItem/TodoItem';
 import styled from 'styled-components';
@@ -36,7 +36,7 @@ const Home = () => {
     getTodos();
   }, []);
 
-  const onClickUpdate = (todo: TodoResType) => {
+  const getInitialDataForEdit = (todo: TodoResType) => {
     if (titleRef.current && contentRef.current) {
       titleRef.current.value = todo.title;
       contentRef.current.value = todo.content;
@@ -46,12 +46,12 @@ const Home = () => {
   };
 
   const onCancleUpdate = () => {
-    setIsClickUpdate(false);
-    setUpdatingTodoId('');
     if (titleRef.current && contentRef.current) {
       titleRef.current.value = '';
       contentRef.current.value = '';
     }
+    setIsClickUpdate(false);
+    setUpdatingTodoId('');
   };
 
   const onDeleteTodo = async (id: string) => {
@@ -63,6 +63,7 @@ const Home = () => {
         const updated = [...current].filter((todo) => todo.id !== id);
         return updated;
       });
+
       if (params === id) {
         navigate('/');
       }
@@ -138,7 +139,7 @@ const Home = () => {
               key={todo.id}
               todo={todo}
               index={index + 1}
-              onClickUpdate={onClickUpdate}
+              getInitialDataForEdit={getInitialDataForEdit}
               onDeleteTodo={onDeleteTodo}
             />
           ))}

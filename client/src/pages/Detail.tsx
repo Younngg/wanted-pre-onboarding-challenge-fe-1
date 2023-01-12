@@ -1,8 +1,6 @@
-import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { TodoResType } from '../types/todo';
+import type { TodoResType } from '../types/todo';
 import styled from 'styled-components';
-import { PageTitle } from './../styles/page';
 import { dateFormat } from '../utils/dateFormat';
 import { Button } from '../styles/form';
 
