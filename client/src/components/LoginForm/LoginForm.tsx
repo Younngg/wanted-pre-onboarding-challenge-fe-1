@@ -23,12 +23,6 @@ const LoginForm = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (localStorage.getItem('token')) {
-      navigate('/');
-    }
-  }, [navigate]);
-
-  useEffect(() => {
     setIsValid((cur) => {
       const updated = {
         ...cur,

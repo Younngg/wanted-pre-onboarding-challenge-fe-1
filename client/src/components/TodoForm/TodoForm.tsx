@@ -1,4 +1,4 @@
-import { FC, FormEvent, RefObject } from 'react';
+import { FC, FormEvent, RefObject, memo } from 'react';
 import styled from 'styled-components';
 import {
   Button,
@@ -16,38 +16,34 @@ interface TodoFormProps {
   onSubmitTodo: (e: FormEvent<HTMLFormElement>) => Promise<void>;
 }
 
-const TodoForm: FC<TodoFormProps> = ({
-  titleRef,
-  contentRef,
-  isUpdating,
-  onCancleUpdate,
-  onSubmitTodo,
-}) => {
-  return (
-    <Form onSubmit={onSubmitTodo}>
-      <InputContainer>
-        <Label htmlFor='todoTitle'>할 일</Label>
-        <TitleInput type='text' id='todoTitle' ref={titleRef} />
-      </InputContainer>
-      <InputContainer>
-        <Label htmlFor='todoContent'>내용</Label>
-        <ContentInput id='todoContent' rows={5} ref={contentRef} />
-      </InputContainer>
-      <ButtonContainer>
-        {isUpdating ? (
-          <>
-            <Button>수정하기</Button>
-            <Button type='button' onClick={onCancleUpdate} color='red'>
-              수정 취소
-            </Button>
-          </>
-        ) : (
-          <Button>추가하기</Button>
-        )}
-      </ButtonContainer>
-    </Form>
-  );
-};
+const TodoForm: FC<TodoFormProps> = memo(
+  ({ titleRef, contentRef, isUpdating, onCancleUpdate, onSubmitTodo }) => {
+    return (
+      <Form onSubmit={onSubmitTodo}>
+        <InputContainer>
+          <Label htmlFor='todoTitle'>할 일</Label>
+          <TitleInput type='text' id='todoTitle' ref={titleRef} />
+        </InputContainer>
+        <InputContainer>
+          <Label htmlFor='todoContent'>내용</Label>
+          <ContentInput id='todoContent' rows={5} ref={contentRef} />
+        </InputContainer>
+        <ButtonContainer>
+          {isUpdating ? (
+            <>
+              <Button>수정하기</Button>
+              <Button type='button' onClick={onCancleUpdate} color='red'>
+                수정 취소
+              </Button>
+            </>
+          ) : (
+            <Button>추가하기</Button>
+          )}
+        </ButtonContainer>
+      </Form>
+    );
+  }
+);
 
 export default TodoForm;
 

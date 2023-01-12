@@ -2,10 +2,16 @@ import styled from 'styled-components';
 import LoginForm from '../components/LoginForm/LoginForm';
 import { Button } from '../styles/form';
 import { PageTitle } from '../styles/page';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { isLogin } from '../utils/isLogin';
 
 const Login = () => {
   const navigate = useNavigate();
+
+  if (isLogin()) {
+    return <Navigate to='/' />;
+  }
+
   return (
     <Container>
       <PageTitle>
