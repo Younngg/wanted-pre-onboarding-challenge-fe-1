@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import styled from 'styled-components';
 import type { TodoResType } from '../../types/todo';
 import { Link } from 'react-router-dom';
@@ -11,27 +11,24 @@ interface TodoItemProps {
   onDeleteTodo: (id: string) => Promise<void>;
 }
 
-const TodoItem: React.FC<TodoItemProps> = ({
-  todo,
-  index,
-  onClickUpdate,
-  onDeleteTodo,
-}) => {
-  return (
-    <Li>
-      <Link to={todo.id} state={todo}>
-        <Index>{index}</Index>
-        <Title>{todo.title}</Title>
-      </Link>
-      <div>
-        <Button onClick={() => onClickUpdate(todo)}>수정</Button>
-        <Button onClick={() => onDeleteTodo(todo.id)} color='red'>
-          삭제
-        </Button>
-      </div>
-    </Li>
-  );
-};
+const TodoItem: React.FC<TodoItemProps> = memo(
+  ({ todo, index, onClickUpdate, onDeleteTodo }) => {
+    return (
+      <Li>
+        <Link to={todo.id} state={todo}>
+          <Index>{index}</Index>
+          <Title>{todo.title}</Title>
+        </Link>
+        <div>
+          <Button onClick={() => onClickUpdate(todo)}>수정</Button>
+          <Button onClick={() => onDeleteTodo(todo.id)} color='red'>
+            삭제
+          </Button>
+        </div>
+      </Li>
+    );
+  }
+);
 
 export default TodoItem;
 

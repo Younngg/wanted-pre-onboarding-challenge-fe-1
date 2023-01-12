@@ -8,6 +8,9 @@ export const ValidationInput = styled.input<{ isValid: boolean }>`
   width: 20rem;
   font-size: 1.5rem;
   padding: 0.5rem 1rem;
+  background-color: white;
+  border: 1px solid grey;
+  border-radius: 5px;
 
   &:focus {
     outline-color: ${({ isValid, theme }) =>
