@@ -6,6 +6,7 @@ import { Container } from './styles/page';
 import axios from 'axios';
 import Home from './pages/Home';
 import Detail from './pages/Detail';
+import CheckAuth from './routes/CheckAuth';
 
 axios.defaults.baseURL = 'http://localhost:8080';
 
@@ -14,11 +15,32 @@ function App() {
     <Container>
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={<Home />}>
+          <Route
+            path='/'
+            element={
+              <CheckAuth>
+                <Home />
+              </CheckAuth>
+            }
+          >
             <Route path=':id' element={<Detail />} />
           </Route>
-          <Route path='/auth' element={<Login />} />
-          <Route path='/auth/register' element={<Register />} />
+          <Route
+            path='/auth'
+            element={
+              <CheckAuth>
+                <Login />
+              </CheckAuth>
+            }
+          />
+          <Route
+            path='/auth/register'
+            element={
+              <CheckAuth>
+                <Register />
+              </CheckAuth>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </Container>

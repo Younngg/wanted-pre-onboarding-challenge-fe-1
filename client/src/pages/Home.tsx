@@ -1,13 +1,12 @@
 import { FormEvent, useEffect, useRef, useState } from 'react';
 import TodoForm from '../components/TodoForm/TodoForm';
-import { Navigate, Outlet, useNavigate, useParams } from 'react-router-dom';
+import { Outlet, useNavigate, useParams } from 'react-router-dom';
 import { PageContainer, PageTitle } from '../styles/page';
 import type { TodoResType } from '../types/todo';
 import axios from 'axios';
 import TodoItem from '../components/TodoItem/TodoItem';
 import styled from 'styled-components';
 import { Button } from '../styles/form';
-import { isLogin } from './../utils/isLogin';
 
 const Home = () => {
   const [todos, setTodos] = useState<TodoResType[]>([]);
@@ -116,10 +115,6 @@ const Home = () => {
       }
     }
   };
-
-  if (!isLogin()) {
-    return <Navigate to='/auth' />;
-  }
 
   return (
     <>

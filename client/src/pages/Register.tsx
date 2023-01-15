@@ -2,20 +2,15 @@ import styled from 'styled-components';
 import RegisterForm from '../components/RegisterForm/RegisterForm';
 import { Button } from '../styles/form';
 import { PageTitle } from '../styles/page';
-import { Navigate, useNavigate } from 'react-router-dom';
-import { isLogin } from '../utils/isLogin';
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
   const navigate = useNavigate();
 
-  if (isLogin()) {
-    return <Navigate to='/' />;
-  }
-
   return (
     <Container>
       <PageTitle>
-        회원가입{' '}
+        회원가입
         <LoginButton type='button' onClick={() => navigate('/auth')}>
           로그인
         </LoginButton>
