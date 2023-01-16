@@ -3,16 +3,18 @@ import styled from 'styled-components';
 import type { TodoResType } from '../../types/todo';
 import { Link } from 'react-router-dom';
 import { Button as ButtonStyle } from '../../styles/form';
+import useDeleteTodo from '../../hooks/todo/useDeleteTodo';
 
 interface TodoItemProps {
   todo: TodoResType;
   index: number;
   getInitialDataForEdit: (todo: TodoResType) => void;
-  onDeleteTodo: (id: string) => Promise<void>;
 }
 
 const TodoItem: FC<TodoItemProps> = memo(
-  ({ todo, index, getInitialDataForEdit, onDeleteTodo }) => {
+  ({ todo, index, getInitialDataForEdit }) => {
+    const { mutate: deleteTodoMutate } = useDeleteTodo();
+
     return (
       <Li>
         <Link to={todo.id} state={todo}>
@@ -21,7 +23,7 @@ const TodoItem: FC<TodoItemProps> = memo(
         </Link>
         <div>
           <Button onClick={() => getInitialDataForEdit(todo)}>수정</Button>
-          <Button onClick={() => onDeleteTodo(todo.id)} color='red'>
+          <Button onClick={() => deleteTodoMutate(todo.id)} color='red'>
             삭제
           </Button>
         </div>

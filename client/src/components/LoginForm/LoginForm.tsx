@@ -1,6 +1,5 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
 import {
   Button,
   Form,
@@ -8,19 +7,19 @@ import {
   ValidationInput,
   ValidationMessage,
 } from '../../styles/form';
-import axios from 'axios';
 import {
   validateEmail,
   validateEmailAndPassword,
   validatePassword,
 } from '../../utils/validate';
+import useLogin from '../../hooks/auth/useLogin';
 
 const LoginForm = () => {
   const [emailInput, setEmailInput] = useState('');
   const [passwordInput, setPasswordInput] = useState('');
   const [isValid, setIsValid] = useState({ email: false, password: false });
 
-  const navigate = useNavigate();
+  const { mutate: loginMutate, isError: isErrorLogin } = useLogin();
 
   useEffect(() => {
     setIsValid((cur) => {
@@ -42,6 +41,12 @@ const LoginForm = () => {
     });
   }, [passwordInput]);
 
+  useEffect(() => {
+    if (isErrorLogin) {
+      alert('로그인에 실패했습니다.');
+    }
+  }, [isErrorLogin]);
+
   const onChangeEmailInput = (e: ChangeEvent<HTMLInputElement>) => {
     const email = e.target.value;
     setEmailInput(email);
@@ -55,16 +60,7 @@ const LoginForm = () => {
   const onSubmitLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (validateEmailAndPassword(isValid)) {
-      try {
-        const res = await axios.post('users/login', {
-          email: emailInput,
-          password: passwordInput,
-        });
-        localStorage.setItem('token', res.data.token);
-        navigate('/');
-      } catch (err) {
-        console.log(err);
-      }
+      loginMutate({ email: emailInput, password: passwordInput });
     }
   };
 

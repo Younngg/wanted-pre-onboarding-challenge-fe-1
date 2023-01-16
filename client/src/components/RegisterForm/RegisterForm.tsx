@@ -14,6 +14,7 @@ import {
   validateEmailAndPassword,
   validatePassword,
 } from '../../utils/validate';
+import useSignUp from '../../hooks/auth/useSignUp';
 
 const RegisterForm = () => {
   const [emailInput, setEmailInput] = useState('');
@@ -21,6 +22,8 @@ const RegisterForm = () => {
   const [isValid, setIsValid] = useState({ email: false, password: false });
 
   const navigate = useNavigate();
+
+  const { mutate: signUpMutate } = useSignUp();
 
   useEffect(() => {
     setIsValid((cur) => {
@@ -54,17 +57,7 @@ const RegisterForm = () => {
 
   const onSubmitRegister = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (validateEmailAndPassword(isValid)) {
-      try {
-        await axios.post('users/create', {
-          email: emailInput,
-          password: passwordInput,
-        });
-        navigate('/auth');
-      } catch (err) {
-        console.log(err);
-      }
-    }
+    signUpMutate({ email: emailInput, password: passwordInput });
   };
 
   return (

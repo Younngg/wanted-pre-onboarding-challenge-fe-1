@@ -1,25 +1,32 @@
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import type { TodoResType } from '../types/todo';
 import styled from 'styled-components';
 import { dateFormat } from '../utils/dateFormat';
 import { Button } from '../styles/form';
+import useGetTodoById from './../hooks/todo/useGetTodoById';
 
 const Detail = () => {
-  const todo: TodoResType = useLocation().state;
+  //const todo: TodoResType = useLocation().state;
+
+  const { id } = useParams();
 
   const navigate = useNavigate();
 
+  const { data: todo, isError, isLoading } = useGetTodoById(id);
+
   return (
-    <div>
-      <TitleContainer>
-        <Title>{todo.title}</Title>
-        <Date>{dateFormat(todo.createdAt)}</Date>
-      </TitleContainer>
-      <Content>{todo.content}</Content>
-      <ButtonContainer>
-        <Button onClick={() => navigate('/')}>나가기</Button>
-      </ButtonContainer>
-    </div>
+    todo && (
+      <div>
+        <TitleContainer>
+          <Title>{todo.title}</Title>
+          <Date>{dateFormat(todo.createdAt)}</Date>
+        </TitleContainer>
+        <Content>{todo.content}</Content>
+        <ButtonContainer>
+          <Button onClick={() => navigate('/')}>나가기</Button>
+        </ButtonContainer>
+      </div>
+    )
   );
 };
 
