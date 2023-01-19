@@ -1,6 +1,5 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
 import {
   Button,
   Form,
@@ -8,7 +7,6 @@ import {
   ValidationInput,
   ValidationMessage,
 } from '../../styles/form';
-import axios from 'axios';
 import {
   validateEmail,
   validateEmailAndPassword,
@@ -19,31 +17,8 @@ import useSignUp from '../../hooks/auth/useSignUp';
 const RegisterForm = () => {
   const [emailInput, setEmailInput] = useState('');
   const [passwordInput, setPasswordInput] = useState('');
-  const [isValid, setIsValid] = useState({ email: false, password: false });
-
-  const navigate = useNavigate();
 
   const { mutate: signUpMutate } = useSignUp();
-
-  useEffect(() => {
-    setIsValid((cur) => {
-      const updated = {
-        ...cur,
-        email: validateEmail(emailInput) ? true : false,
-      };
-      return updated;
-    });
-  }, [emailInput]);
-
-  useEffect(() => {
-    setIsValid((cur) => {
-      const updated = {
-        ...cur,
-        password: validatePassword(passwordInput) ? true : false,
-      };
-      return updated;
-    });
-  }, [passwordInput]);
 
   const onChangeEmailInput = (e: ChangeEvent<HTMLInputElement>) => {
     const email = e.target.value;
@@ -69,10 +44,10 @@ const RegisterForm = () => {
           id='email'
           value={emailInput}
           onChange={onChangeEmailInput}
-          isValid={isValid.email}
+          isValid={validateEmail(emailInput)}
         />
       </InputContainer>
-      {!isValid.email && (
+      {!validateEmail(emailInput) && (
         <ValidationMessage>이메일 형식을 갖춰주세요.</ValidationMessage>
       )}
       <InputContainer>
@@ -82,14 +57,16 @@ const RegisterForm = () => {
           id='password'
           value={passwordInput}
           onChange={onChangePasswordInput}
-          isValid={isValid.password}
+          isValid={validatePassword(passwordInput)}
         />
       </InputContainer>
-      {!isValid.password && (
+      {!validatePassword(passwordInput) && (
         <ValidationMessage>8자 이상 입력해주세요.</ValidationMessage>
       )}
       <ButtonContainer>
-        <Button disabled={!validateEmailAndPassword(isValid)}>sign up</Button>
+        <Button disabled={validateEmailAndPassword(emailInput, passwordInput)}>
+          sign up
+        </Button>
       </ButtonContainer>
     </SignUpForm>
   );
