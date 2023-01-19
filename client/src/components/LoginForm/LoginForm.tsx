@@ -2,6 +2,7 @@ import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import {
   Button,
+  ErrorMessage,
   Form,
   Label,
   ValidationInput,
@@ -13,18 +14,17 @@ import {
   validatePassword,
 } from '../../utils/validate';
 import useLogin from '../../hooks/auth/useLogin';
+import { getErrorMessage } from '../../utils/getErrorMessage';
 
 const LoginForm = () => {
   const [emailInput, setEmailInput] = useState('');
   const [passwordInput, setPasswordInput] = useState('');
 
-  const { mutate: loginMutate, isError: isErrorLogin } = useLogin();
-
-  useEffect(() => {
-    if (isErrorLogin) {
-      alert('로그인에 실패했습니다.');
-    }
-  }, [isErrorLogin]);
+  const {
+    mutate: loginMutate,
+    isError: isErrorLogin,
+    error: loginError,
+  } = useLogin();
 
   const onChangeEmailInput = (e: ChangeEvent<HTMLInputElement>) => {
     const email = e.target.value;
@@ -70,6 +70,9 @@ const LoginForm = () => {
       </InputContainer>
       {!validatePassword(passwordInput) && (
         <ValidationMessage>8자 이상 입력해주세요.</ValidationMessage>
+      )}
+      {isErrorLogin && (
+        <ErrorMessage>{getErrorMessage(loginError)}</ErrorMessage>
       )}
       <ButtonContainer>
         <Button disabled={!validateEmailAndPassword(emailInput, passwordInput)}>

@@ -6,6 +6,7 @@ import {
   Label,
   ValidationInput,
   ValidationMessage,
+  ErrorMessage,
 } from '../../styles/form';
 import {
   validateEmail,
@@ -13,12 +14,17 @@ import {
   validatePassword,
 } from '../../utils/validate';
 import useSignUp from '../../hooks/auth/useSignUp';
+import { getErrorMessage } from '../../utils/getErrorMessage';
 
 const RegisterForm = () => {
   const [emailInput, setEmailInput] = useState('');
   const [passwordInput, setPasswordInput] = useState('');
 
-  const { mutate: signUpMutate } = useSignUp();
+  const {
+    mutate: signUpMutate,
+    isError: isErrorSignUp,
+    error: signUpError,
+  } = useSignUp();
 
   const onChangeEmailInput = (e: ChangeEvent<HTMLInputElement>) => {
     const email = e.target.value;
@@ -30,7 +36,7 @@ const RegisterForm = () => {
     setPasswordInput(password);
   };
 
-  const onSubmitRegister = async (e: FormEvent<HTMLFormElement>) => {
+  const onSubmitRegister = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     signUpMutate({ email: emailInput, password: passwordInput });
   };
@@ -63,8 +69,11 @@ const RegisterForm = () => {
       {!validatePassword(passwordInput) && (
         <ValidationMessage>8자 이상 입력해주세요.</ValidationMessage>
       )}
+      {isErrorSignUp && (
+        <ErrorMessage>{getErrorMessage(signUpError)}</ErrorMessage>
+      )}
       <ButtonContainer>
-        <Button disabled={validateEmailAndPassword(emailInput, passwordInput)}>
+        <Button disabled={!validateEmailAndPassword(emailInput, passwordInput)}>
           sign up
         </Button>
       </ButtonContainer>

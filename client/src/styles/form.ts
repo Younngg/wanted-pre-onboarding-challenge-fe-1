@@ -75,3 +75,8 @@ export const Button = styled.button<{ color?: string }>`
     color: white;
   }
 `;
+
+export const ErrorMessage = styled.p`
+  font-size: 1.4rem;
+  align-self: end;
+`;
