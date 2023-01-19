@@ -31,4 +31,12 @@ const LoginButton = styled(Button)`
   padding: 0 1rem;
   height: 3rem;
   margin-left: 2rem;
+  border: 2px solid ${({ theme }) => theme.color.blue};
+  color: ${({ theme }) => theme.color.blue};
+
+  &:hover {
+    background-color: ${({ theme }) => theme.color.blue};
+    color: white;
+    transition: all 0.2s;
+  }
 `;

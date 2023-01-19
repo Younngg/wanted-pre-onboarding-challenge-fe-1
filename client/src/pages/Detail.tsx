@@ -1,5 +1,4 @@
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import type { TodoResType } from '../types/todo';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { dateFormat } from '../utils/dateFormat';
 import { Button } from '../styles/form';
@@ -12,7 +11,7 @@ const Detail = () => {
 
   const navigate = useNavigate();
 
-  const { data: todo, isError, isLoading } = useGetTodoById(id);
+  const { data: todo } = useGetTodoById(id);
 
   return (
     todo && (

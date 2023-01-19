@@ -37,7 +37,7 @@ const TodoForm: FC<TodoFormProps> = memo(
               </Button>
             </>
           ) : (
-            <Button>추가하기</Button>
+            <Button color='blue'>추가하기</Button>
           )}
         </ButtonContainer>
       </Form>

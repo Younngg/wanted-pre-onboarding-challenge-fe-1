@@ -11,11 +11,10 @@ import useUpdateTodo from './../hooks/todo/useUpdateTodo';
 import useCreateTodo from './../hooks/todo/useCreateTodo';
 
 const Home = () => {
-  const { data: todos, isError, isLoading } = useGetTodos();
+  const { data: todos } = useGetTodos();
   const { mutate: updateTodoMutate } = useUpdateTodo();
   const { mutate: createTodoMutate } = useCreateTodo();
 
-  //const [todos, setTodos] = useState<TodoResType[]>([]);
   const [updatingTodoId, setUpdatingTodoId] = useState('');
 
   const titleRef = useRef<HTMLInputElement>(null);
@@ -41,7 +40,6 @@ const Home = () => {
 
   const onSubmitTodo = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     if (titleRef.current && contentRef.current) {
       const todo = {
         title: titleRef.current.value,
@@ -76,7 +74,7 @@ const Home = () => {
           onSubmitTodo={onSubmitTodo}
         />
         <List>
-          {!todos && <Message>일정을 추가해보세요!</Message>}
+          {todos.length < 1 && <Message>일정을 추가해보세요!</Message>}
           {todos &&
             todos.map((todo: TodoResType, index: number) => (
               <TodoItem
@@ -123,7 +121,6 @@ const Message = styled.p`
 `;
 
 const LogoutButton = styled(Button)`
-  background-color: transparent;
   font-size: 1.3rem;
   height: 3rem;
   padding: 0 1rem;

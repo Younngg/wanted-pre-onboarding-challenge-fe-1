@@ -8,8 +8,8 @@ export const ValidationInput = styled.input<{ isValid: boolean }>`
   width: 20rem;
   font-size: 1.5rem;
   padding: 0.5rem 1rem;
-  background-color: white;
-  border: 1px solid grey;
+  background-color: #f1f1f1;
+  border: none;
   border-radius: 5px;
 
   &:focus {
@@ -22,6 +22,9 @@ export const Input = styled.input`
   width: 20rem;
   font-size: 1.5rem;
   padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  background-color: #f1f1f1;
 
   &:focus {
     outline: none;
@@ -33,6 +36,9 @@ export const Textarea = styled.textarea`
   font-size: 1.5rem;
   padding: 0.5rem 1rem;
   resize: none;
+  border: none;
+  border-radius: 5px;
+  background-color: #f1f1f1;
 
   &:focus {
     outline: none;
@@ -51,7 +57,10 @@ export const Label = styled.label`
   width: 8rem;
 `;
 
-export const Button = styled.button<{ color?: string }>`
+export const Button = styled.button<{
+  color?: string;
+  size?: 'small' | 'medium';
+}>`
   padding: 0 1.5rem;
   height: 4rem;
   margin: 0 0.5rem;
@@ -67,6 +76,7 @@ export const Button = styled.button<{ color?: string }>`
     background-color: ${({ theme, color }) =>
       color ? theme.color[color] : theme.color.green};
     color: white;
+    transition: all 0.2s;
   }
 
   &:disabled {

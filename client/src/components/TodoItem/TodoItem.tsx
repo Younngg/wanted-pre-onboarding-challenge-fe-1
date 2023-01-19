@@ -22,7 +22,9 @@ const TodoItem: FC<TodoItemProps> = memo(
           <Title>{todo.title}</Title>
         </Link>
         <div>
-          <Button onClick={() => getInitialDataForEdit(todo)}>수정</Button>
+          <Button onClick={() => getInitialDataForEdit(todo)} color='blue'>
+            수정
+          </Button>
           <Button onClick={() => deleteTodoMutate(todo.id)} color='red'>
             삭제
           </Button>
